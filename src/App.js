@@ -4,6 +4,7 @@ import "./App.css"
 
 import Home from "./views/Home/"
 import DatabaseList from "./views/Databaselist"
+import Database from "./views/Databaselist/Database"
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
         <Router>
           <Home path="/" />
           <DatabaseList path="/databases" />
+          <Database path="/database/:id" />
         </Router>
       </div>
     )
