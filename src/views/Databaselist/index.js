@@ -25,7 +25,7 @@ class DatabaseList extends Component {
         <Link to="/">Home</Link>
         <h2>Databases</h2>
         <ul>
-            {!this.state.databases ? <p>No databases loaded</p> : this.state.databases.map(el => <li key={el.id}>{el.name} | {el.type} | {el.url}</li>)}
+            {!this.state.databases ? <p>No databases loaded</p> : this.state.databases.map(el => <li key={el.id}><Link to={`/database/${el.id}`}>{el.name}</Link> | {el.type} | {el.url}</li>)}
         </ul>
       </div>
     )
