@@ -11,8 +11,8 @@ class Home extends Component {
       <div>
         <h1>Build an API</h1>
         <p>
-          Start by going to <Link to="databases">Databases</Link> and register
-          you first target database.
+          Start by going to <Link to="databases">Databases</Link> and select your target database or register
+          one.
         </p>
       </div>
     )

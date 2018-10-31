@@ -9,7 +9,6 @@ class DatabaseList extends Component {
   state = {}
 
   componentDidMount = () => {
-    console.log(process.env.API_BASE_URL)
     document.title = "Build an API - Databases"
     
     getRoutes()

@@ -2,7 +2,6 @@ import React, { Component } from "react"
 
 class RouteList extends Component {
   render() {
-    console.log(this.props.parent.state)
     return (
       <div>
         <ul>
