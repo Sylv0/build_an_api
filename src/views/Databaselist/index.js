@@ -1,32 +1,56 @@
 import React, { Component } from "react"
 import { Link } from "@reach/router"
 
-require('dotenv').config()
+import {getDatabases, getRoutes} from '../../utils/api';
+
+require("dotenv").config()
 
 class DatabaseList extends Component {
-
-    state = {}
+  state = {}
 
   componentDidMount = () => {
-      console.log(process.env.API_BASE_URL)
+    console.log(process.env.API_BASE_URL)
     document.title = "Build an API - Databases"
-    fetch(`http://localhost:3000/build/databases`)
-      .then(res => res.json())
-      .then(data => this.setState({databases: data}))
+    
+    getRoutes()
+    .then(data => this.setState({routes: data}))
+    .catch(err => console.log(err))
+
+    getDatabases()
+    .then(data => this.setState({databases: data}))
+    .catch(err => console.log(err))
   }
 
-  componentWillMount = () => {
-      
-  }
+  componentWillMount = () => {}
 
   render() {
     return (
       <div>
         <Link to="/">Home</Link>
         <h2>Databases</h2>
-        <ul>
-            {!this.state.databases ? <p>No databases loaded</p> : this.state.databases.map(el => <li key={el.id}><Link to={`/database/${el.id}`}>{el.name}</Link> | {el.type} | {el.url}</li>)}
-        </ul>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Address</th><th># routes</th></tr>
+          </thead>
+          <tbody>
+            {!this.state.databases || !this.state.routes ? (
+              <tr>
+                <td>No databases loaded</td>
+              </tr>
+            ) : (
+              this.state.databases.map(el => (
+                <tr key={el.id}>
+                  <td>
+                    <Link to={`/database/${el.id}`} state={{info: this.state.databases.filter(obj => obj.id === el.id)}}>{el.name}</Link>
+                  </td>
+                  <td>{el.type}</td>
+                  <td>{el.url}</td>
+                  <td>{this.state.routes.filter(obj => obj.database === el.id).length}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
     )
   }
