@@ -7,6 +7,7 @@ import DatabaseList from "./views/Databaselist"
 import Database from "./views/Databaselist/Database"
 
 import RegisterDatabase from "./components/RegisterDatabase"
+import RegisterRoute from "./components/RegisterRoute"
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
           <DatabaseList path="/databases" />
           <Database path="/database/:id" />
           <RegisterDatabase path="/register/database" />
+          <RegisterRoute path="/register/route" />
         </Router>
       </div>
     )

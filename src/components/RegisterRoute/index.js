@@ -1,40 +1,44 @@
 import React, { Component } from "react"
 import { Link } from "@reach/router"
+import { getDatabases } from "../../utils/api"
 
-class RegisterDatabase extends Component {
-  componentDidMount = () => {
-    document.title = "Add database"
+class RegisterRoute extends Component {
+  state = {
+    form: {
+      database: this.props.database,
+      route: "/",
+      method: "GET",
+      action: {}
+    },
+    databases: false
   }
 
-  state = {
-    name: "name",
-    type: "sqlite",
-    url: "url",
-    user: "root",
-    pass: ""
+  componentDidMount = () => {
+    document.title = "Add route"
+    getDatabases()
+      .then(rows => this.setState({ databases: rows }))
+      .catch(err => console.log)
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    fetch(`${process.env.REACT_APP_API}/build/register/database`, {
+    fetch(`${process.env.REACH_APP_API}/build/register/route`, {
       method: "POST",
-      body: JSON.stringify(this.state),
+      body: JSON.stringify(this.state.form),
       headers: {
         "Content-Type": "application/json"
       },
       credentials: "omit",
       mode: "cors"
     })
-      .then(res => 
-        res.json()
-      )
+      .then(res => res.json())
       .then(data => alert(data.message))
       .catch(err => console.log(err))
   }
 
   handleChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      form: { [e.target.name]: e.target.value }
     })
   }
 
@@ -50,10 +54,11 @@ class RegisterDatabase extends Component {
           onSubmit={this.handleSubmit.bind(this)}
           onChange={this.handleChange.bind(this)}
         >
-          <label>Type:</label>
+          <label>Database:</label>
           <select name="type">
-            <option value="sqlite">SQLite</option>
-            <option value="mysql">MySQL</option>
+            {
+                this.state.databases ? this.state.databases.map(data => <option value={data.id}>{data.name}</option>) : <option>Loading databases</option>
+            }
           </select>
           <label>
             Name
@@ -72,4 +77,4 @@ class RegisterDatabase extends Component {
   }
 }
 
-export default RegisterDatabase
+export default RegisterRoute

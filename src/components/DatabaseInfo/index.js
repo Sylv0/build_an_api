@@ -4,10 +4,12 @@ import RouteList from "../RouteList"
 class DatabaseInfo extends Component {
   state = {}
   componentDidMount = () => {
-    fetch("http://localhost:3000/build/routes")
+    fetch(`${process.env.REACT_APP_API}/build/routes`)
       .then(res => res.json())
       .then(data =>
-        this.setState({routes: data.filter(obj => obj.database === this.props.info.id)})
+        this.setState({
+          routes: data.filter(obj => obj.database === this.props.info.id)
+        })
       )
   }
   render() {
