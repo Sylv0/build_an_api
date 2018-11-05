@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import {Link} from '@reach/router'
 
 class RouteList extends Component {
   render() {
@@ -22,6 +23,8 @@ class RouteList extends Component {
             <li>No routes</li>
           )}
         </ul>
+        <hr></hr>
+        <Link to="/register/route">Add new</Link>
       </div>
     )
   }
