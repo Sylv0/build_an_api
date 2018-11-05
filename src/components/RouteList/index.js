@@ -10,7 +10,7 @@ class RouteList extends Component {
               <li key={route.id}>
                 api/[
                 <a
-                  href={`${process.env.REACH_APP_API}/api/${route.route}`}
+                  href={`${process.env.REACT_APP_API}/api/${route.route}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
