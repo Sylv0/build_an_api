@@ -4,16 +4,15 @@ import { getDatabases } from "../../utils/api"
 
 class RegisterRoute extends Component {
   state = {
-    form: {
-      database: this.props.database,
-      route: "/",
-      method: "GET",
-      action: {}
-    },
+    database: "1",
+    route: "",
+    method: "GET",
+    action: {},
     databases: false
   }
 
   componentDidMount = () => {
+    console.log(this.props)
     document.title = "Add route"
     getDatabases()
       .then(rows => this.setState({ databases: rows }))
@@ -22,9 +21,14 @@ class RegisterRoute extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    fetch(`${process.env.REACH_APP_API}/build/register/route`, {
+    fetch(`${process.env.REACT_APP_API}/build/register/route`, {
       method: "POST",
-      body: JSON.stringify(this.state.form),
+      body: JSON.stringify({
+        database: this.state.database,
+        route: this.state.route,
+        method: this.state.method,
+        action: this.state.action
+      }),
       headers: {
         "Content-Type": "application/json"
       },
@@ -38,7 +42,7 @@ class RegisterRoute extends Component {
 
   handleChange = e => {
     this.setState({
-      form: { [e.target.name]: e.target.value }
+      [e.target.name]: e.target.value
     })
   }
 
@@ -55,21 +59,21 @@ class RegisterRoute extends Component {
           onChange={this.handleChange.bind(this)}
         >
           <label>Database:</label>
-          <select name="type">
-            {
-                this.state.databases ? this.state.databases.map(data => <option value={data.id}>{data.name}</option>) : <option>Loading databases</option>
-            }
+          <select name="database">
+            {this.state.databases ? (
+              this.state.databases.map(data => (
+                <option key={data.id} value={data.id}>
+                  {data.name}
+                </option>
+              ))
+            ) : (
+              <option>Loading databases</option>
+            )}
           </select>
-          <label>
-            Name
-            {this.state.type === "mysql"
-              ? " (for MySQL this is the name of the actual database)"
-              : ""}
-            :
-          </label>
-          <input name="name" type="text" />
-          <label>URL, can be domain, IP or local path:</label>
-          <input name="url" type="text" />
+          <label>Route:</label>
+          <input name="route" type="text" />
+          <label>Action:</label>
+          <input name="action" type="text" />
           <input type="submit" value="Save" />
         </form>
       </div>
