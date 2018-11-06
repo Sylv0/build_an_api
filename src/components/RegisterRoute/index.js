@@ -4,11 +4,14 @@ import { getDatabases } from "../../utils/api"
 
 class RegisterRoute extends Component {
   state = {
-    database: "1",
+    database: "",
     route: "",
     method: "GET",
-    action: {},
-    databases: false
+    table: "",
+    column: "",
+    databases: false,
+    tables: false,
+    columns: false
   }
 
   componentDidMount = () => {
@@ -19,6 +22,26 @@ class RegisterRoute extends Component {
       .catch(err => console.log)
   }
 
+  getTables() {
+    fetch(`${process.env.REACT_APP_API}/build/tables/${this.state.database}`)
+      .then(res => res.json())
+      .then(data =>
+        this.setState({
+          tables: data
+        })
+      )
+  }
+
+  getColumns() {
+    fetch(`${process.env.REACT_APP_API}/build/columns/${this.state.database}/${this.state.table}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          columns: Object.keys(data)
+        })
+      })
+  }
+
   handleSubmit = e => {
     e.preventDefault()
     fetch(`${process.env.REACT_APP_API}/build/register/route`, {
@@ -27,7 +50,9 @@ class RegisterRoute extends Component {
         database: this.state.database,
         route: this.state.route,
         method: this.state.method,
-        action: this.state.action
+        action: `{"from": ["${this.state.table}"], "toReturn": ["${
+          this.state.column
+        }"]}`
       }),
       headers: {
         "Content-Type": "application/json"
@@ -46,8 +71,21 @@ class RegisterRoute extends Component {
     })
   }
 
-  componentDidUpdate = () => {
-    // console.log(this.state)
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    console.log(this.state)
+    if(prevState.database !== this.state.database) {
+      this.getTables()
+      this.setState({
+        table: "",
+        column: ""
+      })
+    }
+    if(prevState.table !== this.state.table && this.state.table !== "") {
+      this.getColumns()
+      this.setState({
+        column: ""
+      })
+    }
   }
 
   render() {
@@ -59,7 +97,14 @@ class RegisterRoute extends Component {
           onChange={this.handleChange.bind(this)}
         >
           <label>Database:</label>
-          <select name="database">
+          <select
+            name="database"
+            required
+            defaultValue=""
+          >
+            <option disabled value="">
+              -- select a database --
+            </option>
             {this.state.databases ? (
               this.state.databases.map(data => (
                 <option key={data.id} value={data.id}>
@@ -70,10 +115,51 @@ class RegisterRoute extends Component {
               <option>Loading databases</option>
             )}
           </select>
-          <label>Route:</label>
-          <input name="route" type="text" />
-          <label>Action:</label>
-          <input name="action" type="text" />
+          {this.state.database.length > 0 && (
+            <span>
+              <label>Route:</label>
+              <input name="route" type="text" required />
+            </span>
+          )}
+          {this.state.route.length > 0 && (
+            <span>
+              <label>Table:</label>
+              <select name="table" required value={this.state.table} onChange={() => {}}>
+                <option disabled value="">
+                  -- select a table --
+                </option>
+                {this.state.tables ? (
+                  this.state.tables.map((data, index) => (
+                    <option key={index} value={data.name}>
+                      {data.name}
+                    </option>
+                  ))
+                ) : (
+                  <option>Loading tables</option>
+                )}
+              </select>
+            </span>
+          )}
+          {this.state.table.length > 0 && (
+            <span>
+              <label>Table:</label>
+              <select name="column" required value={this.state.column} onChange={() => {}}>
+                <option disabled value="">
+                  -- select a column --
+                </option>
+                <option value="*">All</option>
+                {this.state.columns ? (
+                  this.state.columns.map((data, index) => (
+                    <option key={index} value={data}>
+                      {data}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>Loading columns</option>
+                )}
+              </select>
+            </span>
+          )}
           <input type="submit" value="Save" />
         </form>
       </div>
