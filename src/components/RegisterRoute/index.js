@@ -15,7 +15,6 @@ class RegisterRoute extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.props)
     document.title = "Add route"
     getDatabases()
       .then(rows => this.setState({ databases: rows }))
@@ -72,7 +71,6 @@ class RegisterRoute extends Component {
   }
 
   componentDidUpdate = (prevProps, prevState, snapshot) => {
-    console.log(this.state)
     if(prevState.database !== this.state.database) {
       this.getTables()
       this.setState({
