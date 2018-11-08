@@ -8,7 +8,7 @@ class RegisterDatabase extends Component {
 
   state = {
     name: "name",
-    type: "sqlite",
+    type: "",
     url: "url",
     user: "root",
     pass: ""
@@ -51,9 +51,12 @@ class RegisterDatabase extends Component {
           onChange={this.handleChange.bind(this)}
         >
           <label>Type:</label>
-          <select name="type">
-            <option value="sqlite">SQLite</option>
+          <select required name="type" value={this.state.type} onChange={() => {}}>
+                <option disabled value="">
+                  -- select a database --
+                </option>
             <option value="mysql">MySQL</option>
+            <option value="sqlite">SQLite</option>
           </select>
           <label>
             Name
