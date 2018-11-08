@@ -65,6 +65,14 @@ class RegisterDatabase extends Component {
           <input name="name" type="text" />
           <label>URL, can be domain, IP or local path:</label>
           <input name="url" type="text" />
+          {this.state.type === "mysql" && 
+            <span>
+              <label>Username: </label>
+              <input type="text" name="user" placeholder="root"></input>
+              <label>Password: </label>
+              <input type="password" name="user" placeholder="password"></input>
+            </span>
+          }
           <input type="submit" value="Save" />
         </form>
       </div>
