@@ -11,14 +11,16 @@ class RouteList extends Component {
           {this.props.parent.state.routes ? (
             this.props.parent.state.routes.map(route => (
               <li key={route.id}>
-                api/[
+                api/
                 <a
                   href={`${process.env.REACT_APP_API}/api/${route.route}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {route.route}]
+                  {route.route}
                 </a>
+                <span> : </span>
+                to {route.method} "{JSON.parse(route.action).toReturn}"
               </li>
             ))
           ) : (
