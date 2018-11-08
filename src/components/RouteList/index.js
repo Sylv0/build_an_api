@@ -1,9 +1,13 @@
 import React, { Component } from "react"
-import {Link} from '@reach/router'
 
 import RegisterRoute from '../RegisterRoute'
 
 class RouteList extends Component {
+
+  state = {
+    addNew: false
+  }
+
   render() {
     return (
       <div>
@@ -28,8 +32,8 @@ class RouteList extends Component {
           )}
         </ul>
         <hr></hr>
-        <Link to="/register/route">Add new</Link>
-        <RegisterRoute update={this.props.parent.getRoutes}></RegisterRoute>
+        <button onClick={() => this.setState({addNew: !this.state.addNew})}>{this.state.addNew ? "Cancel" : "Add new"}</button>
+        { this.state.addNew && <RegisterRoute update={this.props.parent.getRoutes}></RegisterRoute>}
       </div>
     )
   }
