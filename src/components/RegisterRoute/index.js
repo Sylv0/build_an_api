@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { Link } from "@reach/router"
 import { getDatabases } from "../../utils/api"
 
 class RegisterRoute extends Component {
@@ -32,7 +31,11 @@ class RegisterRoute extends Component {
   }
 
   getColumns() {
-    fetch(`${process.env.REACT_APP_API}/build/columns/${this.state.database}/${this.state.table}`)
+    fetch(
+      `${process.env.REACT_APP_API}/build/columns/${this.state.database}/${
+        this.state.table
+      }`
+    )
       .then(res => res.json())
       .then(data => {
         this.setState({
@@ -60,46 +63,46 @@ class RegisterRoute extends Component {
       mode: "cors"
     })
       .then(res => res.json())
-      .then(data => alert(data.message))
+      .then(data => {
+        this.props.update()
+        alert(data.message)
+      })
       .catch(err => console.log(err))
   }
 
   handleChange = e => {
+    console.log(e.target.value)
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
   componentDidUpdate = (prevProps, prevState, snapshot) => {
-    if(prevState.database !== this.state.database) {
+    if (prevState.database !== this.state.database) {
       this.getTables()
       this.setState({
         table: "",
         column: ""
       })
     }
-    if(prevState.table !== this.state.table && this.state.table !== "") {
+    if (prevState.table !== this.state.table && this.state.table !== "") {
       this.getColumns()
       this.setState({
         column: ""
       })
     }
+    console.log(this.state)
   }
 
   render() {
     return (
       <div>
-        <Link to="/databases">Back</Link>
         <form
           onSubmit={this.handleSubmit.bind(this)}
           onChange={this.handleChange.bind(this)}
         >
           <label>Database:</label>
-          <select
-            name="database"
-            required
-            defaultValue=""
-          >
+          <select name="database" required defaultValue="">
             <option disabled value="">
               -- select a database --
             </option>
@@ -110,7 +113,7 @@ class RegisterRoute extends Component {
                 </option>
               ))
             ) : (
-              <option>Loading databases</option>
+              <option disabled value="loading">Loading databases...</option>
             )}
           </select>
           {this.state.database.length > 0 && (
@@ -122,7 +125,12 @@ class RegisterRoute extends Component {
           {this.state.route.length > 0 && (
             <span>
               <label>Table:</label>
-              <select name="table" required value={this.state.table} onChange={() => {}}>
+              <select
+                name="table"
+                required
+                value={this.state.table}
+                onChange={() => {}}
+              >
                 <option disabled value="">
                   -- select a table --
                 </option>
@@ -133,7 +141,7 @@ class RegisterRoute extends Component {
                     </option>
                   ))
                 ) : (
-                  <option>Loading tables</option>
+                  <option disabled value="loading">Loading tables...</option>
                 )}
               </select>
             </span>
@@ -141,7 +149,12 @@ class RegisterRoute extends Component {
           {this.state.table.length > 0 && (
             <span>
               <label>Table:</label>
-              <select name="column" required value={this.state.column} onChange={() => {}}>
+              <select
+                name="column"
+                required
+                value={this.state.column}
+                onChange={() => {}}
+              >
                 <option disabled value="">
                   -- select a column --
                 </option>

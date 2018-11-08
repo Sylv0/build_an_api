@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import {Link} from '@reach/router'
 
+import RegisterRoute from '../RegisterRoute'
+
 class RouteList extends Component {
   render() {
     return (
@@ -25,6 +27,7 @@ class RouteList extends Component {
         </ul>
         <hr></hr>
         <Link to="/register/route">Add new</Link>
+        <RegisterRoute update={this.props.parent.getRoutes}></RegisterRoute>
       </div>
     )
   }
