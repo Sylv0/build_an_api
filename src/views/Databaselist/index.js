@@ -6,7 +6,9 @@ import RegisterDatabase from '../../components/RegisterDatabase'
 import { getDatabases, getRoutes } from "../../utils/api"
 
 class DatabaseList extends Component {
-  state = {}
+  state = {
+    addNew: false
+  }
 
   componentDidMount = () => {
     document.title = "Build an API - Databases"
@@ -69,7 +71,8 @@ class DatabaseList extends Component {
           </tbody>
         </table>
         <hr />
-        <RegisterDatabase></RegisterDatabase>
+        <button onClick={() => this.setState({addNew: !this.state.addNew})}>{this.state.addNew ? "Cancel" : "Add new"}</button>
+        {this.state.addNew && <RegisterDatabase></RegisterDatabase> }
       </div>
     )
   }
