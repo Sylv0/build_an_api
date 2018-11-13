@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import { Link } from "@reach/router"
 
+import RegisterDatabase from '../../components/RegisterDatabase'
+
 import { getDatabases, getRoutes } from "../../utils/api"
 
 class DatabaseList extends Component {
@@ -23,7 +25,6 @@ class DatabaseList extends Component {
   render() {
     return (
       <div>
-        <Link to="/">Home</Link>
         <h2>Databases</h2>
         <table>
           <thead>
@@ -68,7 +69,7 @@ class DatabaseList extends Component {
           </tbody>
         </table>
         <hr />
-        <Link to="/register/database">Add new</Link>
+        <RegisterDatabase></RegisterDatabase>
       </div>
     )
   }

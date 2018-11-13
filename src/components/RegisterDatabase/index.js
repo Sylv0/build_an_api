@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { Link } from "@reach/router"
 
 class RegisterDatabase extends Component {
   componentDidMount = () => {
@@ -45,7 +44,6 @@ class RegisterDatabase extends Component {
   render() {
     return (
       <div>
-        <Link to="/databases">Back</Link>
         <form
           onSubmit={this.handleSubmit.bind(this)}
           onChange={this.handleChange.bind(this)}
