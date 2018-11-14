@@ -18,6 +18,7 @@ class RegisterRoute extends Component {
     getDatabases()
       .then(rows => this.setState({ databases: rows }))
       .catch(err => console.log)
+      if(this.props.database) this.setState({database: this.props.database.toString()})
   }
 
   getTables() {
@@ -100,7 +101,7 @@ class RegisterRoute extends Component {
           onChange={this.handleChange.bind(this)}
         >
           <label>Database:</label>
-          <select name="database" required value={this.props.database} onChange={() => {}}>
+          <select name="database" required value={this.state.database} onChange={() => {}}>
             <option disabled value="">
               -- select a database --
             </option>
