@@ -12,7 +12,7 @@ class Home extends Component {
         <h1>Build an API</h1>
         <p>
           Start by going to <Link to="databases">Databases</Link> and select your target database or register
-          one(soon).
+          one.
         </p>
       </div>
     )
