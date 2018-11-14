@@ -7,7 +7,7 @@ class RegisterRoute extends Component {
     route: "",
     method: "GET",
     table: "",
-    column: "",
+    column: [],
     databases: false,
     tables: false,
     columns: false
@@ -47,6 +47,8 @@ class RegisterRoute extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
+    console.log(e.target.column)
+    return
     fetch(`${process.env.REACT_APP_API}/build/register/route`, {
       method: "POST",
       body: JSON.stringify({
@@ -72,9 +74,21 @@ class RegisterRoute extends Component {
   }
 
   handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    if(e.target.name === "column[]"){
+      let temp_arr = this.state.column
+      if(e.target.checked)
+        temp_arr.push(e.target.value)
+      else
+        temp_arr = temp_arr.filter(col => col !== e.target.value)
+      console.log(temp_arr)
+      this.setState({
+        column: temp_arr
+      })
+    }else{
+      this.setState({
+        [e.target.name]: e.target.value
+      })
+    }
   }
 
   componentDidUpdate = (prevProps, prevState, snapshot) => {
@@ -82,15 +96,16 @@ class RegisterRoute extends Component {
       this.getTables()
       this.setState({
         table: "",
-        column: ""
+        column: []
       })
     }
     if (prevState.table !== this.state.table && this.state.table !== "") {
       this.getColumns()
       this.setState({
-        column: ""
+        column: []
       })
     }
+    console.log(this.state)
   }
 
   render() {
@@ -145,10 +160,11 @@ class RegisterRoute extends Component {
               </select>
             </span>
           )}
-          {this.state.table.length > 0 && (
+          {this.state.table.length > 0 && this.state.columns && (
             <span>
               <label>Table:</label>
-              <select
+              {this.state.columns.map(col => <div key={col}><span>{col}</span><input type="checkbox" name="column[]" value={col}></input></div>)}
+              {/* <select
                 name="column"
                 required
                 value={this.state.column}
@@ -167,7 +183,7 @@ class RegisterRoute extends Component {
                 ) : (
                   <option disabled>Loading columns</option>
                 )}
-              </select>
+              </select> */}
             </span>
           )}
           <input type="submit" value="Save" />
