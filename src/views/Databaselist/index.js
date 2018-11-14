@@ -4,6 +4,7 @@ import { Link } from "@reach/router"
 import RegisterDatabase from "../../components/RegisterDatabase"
 
 import { getDatabases, getRoutes } from "../../utils/api"
+import Octicon, {X} from "@githubprimer/octicons-react";
 
 class DatabaseList extends Component {
   state = {
@@ -40,6 +41,14 @@ class DatabaseList extends Component {
     this.databases()
   }
 
+  delete = (id) => {
+    if(!window.confirm("Are you sure?")) return
+    fetch(`${process.env.REACT_APP_API}/build/remove/database/${id}`)
+    .then(res => {
+      this.update();
+    })
+  }
+
   componentWillMount = () => {}
 
   render() {
@@ -49,10 +58,13 @@ class DatabaseList extends Component {
         <div className="row">
           {this.state.databases ? (
             this.state.databases.map(database => (
-              <div class="card col-3">
-                <img class="card-img-top" src="holder.js/100x180/" alt="" />
-                <div class="card-body">
-                  <h4 class="card-title">
+              <div className="card col-3" key={database.id}>
+                <div className="card-body">
+                <a href={database.name} className="float-right text-danger" onClick={e => {
+                  e.preventDefault()
+                  this.delete(database.id)
+                }}><Octicon icon={X}></Octicon></a>
+                  <h4 className="card-title">
                     <Link
                       to={`/database/${database.id}`}
                       state={{
@@ -64,9 +76,9 @@ class DatabaseList extends Component {
                       {database.name}
                     </Link>
                   </h4>
-                  <p class="card-text">{database.type}</p>
-                  <p class="card-text">{database.url}</p>
-                  <p class="card-text">
+                  <p className="card-text">{database.type}</p>
+                  <p className="card-text">{database.url}</p>
+                  <p className="card-text">
                     {
                       this.state.routes.filter(
                         obj => obj.database === database.id
