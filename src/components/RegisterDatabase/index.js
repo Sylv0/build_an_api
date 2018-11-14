@@ -27,7 +27,10 @@ class RegisterDatabase extends Component {
       .then(res => 
         res.json()
       )
-      .then(data => alert(data.message))
+      .then(data => {
+        alert(data.message)
+        this.props.update()
+      })
       .catch(err => console.log(err))
   }
 

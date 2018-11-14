@@ -10,16 +10,34 @@ class DatabaseList extends Component {
     addNew: false
   }
 
+  routes = () => {
+    getRoutes()
+    .then(data => this.setState({ routes: data }))
+    .catch(err => console.log(err))
+  }
+
+  databases = () => {
+    getDatabases()
+    .then(data => this.setState({ databases: data }))
+    .catch(err => console.log(err))
+  }
+
   componentDidMount = () => {
     document.title = "Build an API - Databases"
 
-    getRoutes()
-      .then(data => this.setState({ routes: data }))
-      .catch(err => console.log(err))
+    this.routes = this.routes.bind(this)
+    this.databases = this.databases.bind(this)
+    this.update = this.update.bind(this)
 
-    getDatabases()
-      .then(data => this.setState({ databases: data }))
-      .catch(err => console.log(err))
+    this.update()
+  }
+
+  update = () => {
+    this.setState({
+      addNew: false
+    })
+    this.routes()
+    this.databases()
   }
 
   componentWillMount = () => {}
@@ -72,7 +90,7 @@ class DatabaseList extends Component {
         </table>
         <hr />
         <button onClick={() => this.setState({addNew: !this.state.addNew})}>{this.state.addNew ? "Cancel" : "Add new"}</button>
-        {this.state.addNew && <RegisterDatabase></RegisterDatabase> }
+        {this.state.addNew && <RegisterDatabase update={this.update}></RegisterDatabase> }
       </div>
     )
   }
