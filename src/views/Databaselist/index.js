@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Link } from "@reach/router"
 
-import RegisterDatabase from '../../components/RegisterDatabase'
+import RegisterDatabase from "../../components/RegisterDatabase"
 
 import { getDatabases, getRoutes } from "../../utils/api"
 
@@ -12,14 +12,14 @@ class DatabaseList extends Component {
 
   routes = () => {
     getRoutes()
-    .then(data => this.setState({ routes: data }))
-    .catch(err => console.log(err))
+      .then(data => this.setState({ routes: data }))
+      .catch(err => console.log(err))
   }
 
   databases = () => {
     getDatabases()
-    .then(data => this.setState({ databases: data }))
-    .catch(err => console.log(err))
+      .then(data => this.setState({ databases: data }))
+      .catch(err => console.log(err))
   }
 
   componentDidMount = () => {
@@ -46,51 +46,46 @@ class DatabaseList extends Component {
     return (
       <div>
         <h2>Databases</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Address</th>
-              <th># routes</th>
-            </tr>
-          </thead>
-          <tbody>
-            {!this.state.databases || !this.state.routes ? (
-              <tr>
-                <td>No databases loaded</td>
-              </tr>
-            ) : (
-              this.state.databases.map(el => (
-                <tr key={el.id}>
-                  <td>
+        <div className="row">
+          {this.state.databases ? (
+            this.state.databases.map(database => (
+              <div class="card col-3">
+                <img class="card-img-top" src="holder.js/100x180/" alt="" />
+                <div class="card-body">
+                  <h4 class="card-title">
                     <Link
-                      to={`/database/${el.id}`}
+                      to={`/database/${database.id}`}
                       state={{
                         info: this.state.databases.filter(
-                          obj => obj.id === el.id
+                          obj => obj.id === database.id
                         )
                       }}
                     >
-                      {el.name}
+                      {database.name}
                     </Link>
-                  </td>
-                  <td>{el.type}</td>
-                  <td>{el.url}</td>
-                  <td>
+                  </h4>
+                  <p class="card-text">{database.type}</p>
+                  <p class="card-text">{database.url}</p>
+                  <p class="card-text">
                     {
-                      this.state.routes.filter(obj => obj.database === el.id)
-                        .length
+                      this.state.routes.filter(
+                        obj => obj.database === database.id
+                      ).length
                     }
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+                    <span> route(s)</span>
+                  </p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <span>No databases, add one</span>
+          )}
+        </div>
         <hr />
-        <button onClick={() => this.setState({addNew: !this.state.addNew})}>{this.state.addNew ? "Cancel" : "Add new"}</button>
-        {this.state.addNew && <RegisterDatabase update={this.update}></RegisterDatabase> }
+        <button onClick={() => this.setState({ addNew: !this.state.addNew })}>
+          {this.state.addNew ? "Cancel" : "Add new"}
+        </button>
+        {this.state.addNew && <RegisterDatabase update={this.update} />}
       </div>
     )
   }
