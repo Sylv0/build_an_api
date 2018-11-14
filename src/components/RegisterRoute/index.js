@@ -100,7 +100,7 @@ class RegisterRoute extends Component {
           onChange={this.handleChange.bind(this)}
         >
           <label>Database:</label>
-          <select name="database" required defaultValue="">
+          <select name="database" required value={this.props.database} onChange={() => {}}>
             <option disabled value="">
               -- select a database --
             </option>

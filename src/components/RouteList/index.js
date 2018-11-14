@@ -33,7 +33,7 @@ class RouteList extends Component {
         </ul>
         <hr></hr>
         <button onClick={() => this.setState({addNew: !this.state.addNew})}>{this.state.addNew ? "Cancel" : "Add new"}</button>
-        { this.state.addNew && <RegisterRoute update={this.props.parent.getRoutes}></RegisterRoute>}
+        { this.state.addNew && <RegisterRoute update={this.props.parent.getRoutes} database={this.props.parent.state.info[0].id} routes={this.props.parent.state.routes}></RegisterRoute>}
       </div>
     )
   }
