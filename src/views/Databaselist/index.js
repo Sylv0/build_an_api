@@ -58,7 +58,7 @@ class DatabaseList extends Component {
         <div className="row">
           {this.state.databases ? (
             this.state.databases.map(database => (
-              <div className="card col-3" key={database.id}>
+              <div className="card col-xs-12 col-sm-6 col-lg-3" key={database.id}>
                 <div className="card-body">
                 <a href={database.name} className="float-right text-danger" onClick={e => {
                   e.preventDefault()
