@@ -8,6 +8,10 @@ class RouteList extends Component {
     addNew: false
   }
 
+  action = action => {
+    return JSON.parse(action)
+  }
+
   render() {
     return (
       <div>
@@ -24,7 +28,7 @@ class RouteList extends Component {
                   {route.route}
                 </a>
                 <span> : </span>
-                to {route.method} "{JSON.parse(route.action).toReturn}"
+                to {route.method} "{this.action(route.action).toReturn.join(", ")}" from "{this.action(route.action).from}"
               </li>
             ))
           ) : (
