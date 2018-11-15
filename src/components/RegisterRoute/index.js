@@ -8,6 +8,7 @@ class RegisterRoute extends Component {
     method: "GET",
     table: "",
     column: [],
+    limit: "",
     databases: false,
     tables: false,
     columns: false
@@ -18,7 +19,8 @@ class RegisterRoute extends Component {
     getDatabases()
       .then(rows => this.setState({ databases: rows }))
       .catch(err => console.log)
-      if(this.props.database) this.setState({database: this.props.database.toString()})
+    if (this.props.database)
+      this.setState({ database: this.props.database.toString() })
   }
 
   getTables() {
@@ -47,15 +49,21 @@ class RegisterRoute extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
+
+    let action = {
+      from: [this.state.table],
+      toReturn: this.state.column
+    }
+
+    if(this.state.limit > 0) action["limit"] = this.state.limit
+
     fetch(`${process.env.REACT_APP_API}/build/register/route`, {
       method: "POST",
       body: JSON.stringify({
         database: this.state.database,
         route: this.state.route,
         method: this.state.method,
-        action: JSON.stringify({
-          from: [this.state.table], toReturn: this.state.column
-        })
+        action: JSON.stringify(action)
       }),
       headers: {
         "Content-Type": "application/json"
@@ -72,17 +80,14 @@ class RegisterRoute extends Component {
   }
 
   handleChange = e => {
-    if(e.target.name === "column[]"){
+    if (e.target.name === "column[]") {
       let temp_arr = this.state.column
-      if(e.target.checked)
-        temp_arr.push(e.target.value)
-      else
-        temp_arr = temp_arr.filter(col => col !== e.target.value)
-      console.log(temp_arr)
+      if (e.target.checked) temp_arr.push(e.target.value)
+      else temp_arr = temp_arr.filter(col => col !== e.target.value)
       this.setState({
         column: temp_arr
       })
-    }else{
+    } else {
       this.setState({
         [e.target.name]: e.target.value
       })
@@ -103,7 +108,6 @@ class RegisterRoute extends Component {
         column: []
       })
     }
-    console.log(this.state)
   }
 
   render() {
@@ -114,7 +118,12 @@ class RegisterRoute extends Component {
           onChange={this.handleChange.bind(this)}
         >
           <label>Database:</label>
-          <select name="database" required value={this.state.database} onChange={() => {}}>
+          <select
+            name="database"
+            required
+            value={this.state.database}
+            onChange={() => {}}
+          >
             <option disabled value="">
               -- select a database --
             </option>
@@ -125,7 +134,9 @@ class RegisterRoute extends Component {
                 </option>
               ))
             ) : (
-              <option disabled value="loading">Loading databases...</option>
+              <option disabled value="loading">
+                Loading databases...
+              </option>
             )}
           </select>
           {this.state.database.length > 0 && (
@@ -153,7 +164,9 @@ class RegisterRoute extends Component {
                     </option>
                   ))
                 ) : (
-                  <option disabled value="loading">Loading tables...</option>
+                  <option disabled value="loading">
+                    Loading tables...
+                  </option>
                 )}
               </select>
             </span>
@@ -161,7 +174,16 @@ class RegisterRoute extends Component {
           {this.state.table.length > 0 && this.state.columns && (
             <div>
               <label>Columns:</label>
-              {this.state.columns.map(col => <div key={col}><span>{col}</span><input type="checkbox" name="column[]" value={col}></input></div>)}
+              {this.state.columns.map(col => (
+                <div key={col}>
+                  <span>{col}</span>
+                  <input type="checkbox" name="column[]" value={col} />
+                </div>
+              ))}
+              <div>
+                <label>Limit(0 for no limit)</label>
+                <input type="number" min="0" name="limit" />
+              </div>
             </div>
           )}
           <input type="submit" value="Save" />
