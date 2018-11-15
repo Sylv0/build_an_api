@@ -47,17 +47,15 @@ class RegisterRoute extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    console.log(e.target.column)
-    return
     fetch(`${process.env.REACT_APP_API}/build/register/route`, {
       method: "POST",
       body: JSON.stringify({
         database: this.state.database,
         route: this.state.route,
         method: this.state.method,
-        action: `{"from": ["${this.state.table}"], "toReturn": ["${
-          this.state.column
-        }"]}`
+        action: JSON.stringify({
+          from: [this.state.table], toReturn: this.state.column
+        })
       }),
       headers: {
         "Content-Type": "application/json"
@@ -161,30 +159,10 @@ class RegisterRoute extends Component {
             </span>
           )}
           {this.state.table.length > 0 && this.state.columns && (
-            <span>
-              <label>Table:</label>
+            <div>
+              <label>Columns:</label>
               {this.state.columns.map(col => <div key={col}><span>{col}</span><input type="checkbox" name="column[]" value={col}></input></div>)}
-              {/* <select
-                name="column"
-                required
-                value={this.state.column}
-                onChange={() => {}}
-              >
-                <option disabled value="">
-                  -- select a column --
-                </option>
-                <option value="*">All</option>
-                {this.state.columns ? (
-                  this.state.columns.map((data, index) => (
-                    <option key={index} value={data}>
-                      {data}
-                    </option>
-                  ))
-                ) : (
-                  <option disabled>Loading columns</option>
-                )}
-              </select> */}
-            </span>
+            </div>
           )}
           <input type="submit" value="Save" />
         </form>
