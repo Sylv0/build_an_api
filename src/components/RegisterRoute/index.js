@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import Octicons, {PlusSmall, Dash} from '@githubprimer/octicons-react'
 import { getDatabases } from "../../utils/api"
 
 class RegisterRoute extends Component {
@@ -124,38 +123,44 @@ class RegisterRoute extends Component {
           onSubmit={this.handleSubmit.bind(this)}
           onChange={this.handleChange.bind(this)}
         >
-          <label>Database:</label>
-          <select
-            name="database"
-            required
-            value={this.state.database}
-            onChange={() => {}}
-          >
-            <option disabled value="">
-              -- select a database --
-            </option>
-            {this.state.databases ? (
-              this.state.databases.map(data => (
-                <option key={data.id} value={data.id}>
-                  {data.name}
-                </option>
-              ))
-            ) : (
-              <option disabled value="loading">
-                Loading databases...
+          <div className="form-group">
+            <label htmlFor="r_db">Database:</label>
+            <select
+              id="r_db"
+              name="database"
+              required
+              value={this.state.database}
+              onChange={() => {}}
+              className="form-control"
+            >
+              <option disabled value="">
+                -- select a database --
               </option>
-            )}
-          </select>
+              {this.state.databases ? (
+                this.state.databases.map(data => (
+                  <option key={data.id} value={data.id}>
+                    {data.name}
+                  </option>
+                ))
+              ) : (
+                <option disabled value="loading">
+                  Loading databases...
+                </option>
+              )}
+            </select>
+          </div>
           {this.state.database.length > 0 && (
-            <span>
+            <div className="form-group">
               <label>Route:</label>
-              <input name="route" type="text" required />
-            </span>
+              <input className="form-control" name="route" type="text" required />
+            </div>
           )}
           {this.state.route.length > 0 && (
-            <span>
-              <label>Table:</label>
+            <div className="form-group">
+              <label htmlFor="r_table">Table:</label>
               <select
+              id="r_table"
+              className="form-control"
                 name="table"
                 required
                 value={this.state.table}
@@ -176,32 +181,32 @@ class RegisterRoute extends Component {
                   </option>
                 )}
               </select>
-            </span>
+            </div>
           )}
           {this.state.table.length > 0 && this.state.columns && (
             <div>
               <label>Columns:</label>
               <div>
-                <button type="button" onClick={this.setCheckboxes} value="">
-                  <Octicons icon={PlusSmall}></Octicons>
+                <button className="btn btn-primary btn-sm" type="button" onClick={this.setCheckboxes} value="">
+                  +
                 </button>
-                <button type="button" onClick={this.setCheckboxes} value="a">
-                  <Octicons icon={Dash}></Octicons>
+                <button className="btn btn-secondary btn-sm" type="button" onClick={this.setCheckboxes} value="a">
+                  -
                 </button>
               </div>
               {this.state.columns.map(col => (
-                <div key={col}>
-                  <span>{col}</span>
-                  <input type="checkbox" name="column[]" value={col} />
+                <div className="form-group form-check" key={col}>
+                  <input id={`check_${col}`} className="form-check-input" type="checkbox" name="column[]" value={col} />
+                  <label className="form-check-label" htmlFor={`check_${col}`}>{col}</label>
                 </div>
               ))}
-              <div>
-                <label>Limit(0 for no limit)</label>
-                <input type="number" min="0" name="limit" />
+              <div className="form-group">
+                <label htmlFor="r_limit">Limit(0 for no limit)</label>
+                <input id="r_limit" className="form-control" type="number" min="0" name="limit" />
               </div>
             </div>
           )}
-          <input type="submit" value="Save" />
+          <input className="btn btn-default" type="submit" value="Save" />
         </form>
       </div>
     )
