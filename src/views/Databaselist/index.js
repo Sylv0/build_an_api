@@ -94,7 +94,7 @@ class DatabaseList extends Component {
           )}
         </div>
         <hr />
-        <button onClick={() => this.setState({ addNew: !this.state.addNew })}>
+        <button className="btn btn-default" onClick={() => this.setState({ addNew: !this.state.addNew })}>
           {this.state.addNew ? "Cancel" : "Add new"}
         </button>
         {this.state.addNew && <RegisterDatabase update={this.update} />}
