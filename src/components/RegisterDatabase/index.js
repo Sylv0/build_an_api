@@ -50,7 +50,7 @@ class RegisterDatabase extends Component {
           onChange={this.handleChange.bind(this)}
         >
           <div className="form-group">
-            <label for="db_type">Type:</label>
+            <label htmlFor="db_type">Type:</label>
             <select
               className="form-control"
               id="db_type"
@@ -67,7 +67,7 @@ class RegisterDatabase extends Component {
             </select>
           </div>
           <div className="form-group">
-            <label for="db_name">Name:</label>
+            <label htmlFor="db_name">Name:</label>
             <input
               className="form-control"
               id="db_name"
@@ -82,7 +82,7 @@ class RegisterDatabase extends Component {
             )}
           </div>
           <div className="form-group">
-            <label for="db_url">URL, can be domain, IP or local path:</label>
+            <label htmlFor="db_url">URL, can be domain, IP or local path:</label>
             <input
               className="form-control"
               id="db_url"
@@ -92,7 +92,7 @@ class RegisterDatabase extends Component {
             />
             {this.state.type === "mysql" && (
               <div className="form-group">
-                <label for="db_user">Username: </label>
+                <label htmlFor="db_user">Username: </label>
                 <input
                   className="form-control"
                   id="db_user"
@@ -100,7 +100,7 @@ class RegisterDatabase extends Component {
                   name="user"
                   placeholder="root"
                 />
-                <label for="db_pass">Password: </label>
+                <label htmlFor="db_pass">Password: </label>
                 <input
                   className="form-control"
                   id="db_pass"
