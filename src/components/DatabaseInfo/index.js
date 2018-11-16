@@ -3,21 +3,9 @@ import React, { Component } from "react"
 class DatabaseInfo extends Component {
   render() {
     return (
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{this.props.info.name}</td>
-              <td>{this.props.info.type}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="row">
+        <h3 className="mx-3">{this.props.info.name}</h3>
+        <small>A{this.props.info.type === "sqlite" && "n"} {this.props.info.type} database</small>
       </div>
     )
   }

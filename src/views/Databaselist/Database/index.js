@@ -27,14 +27,13 @@ class Database extends Component {
     return (
       <div>
         <Link to="/databases">Back to list</Link>
-        <h3>A database</h3>
         {!this.state.info ? (
           <span>
             Database might be loading... If this doesn't go away, got back to
             <Link to="/databases">Databases</Link>.
           </span>
         ) : (
-          <div>
+          <div className="container-fluid">
             <DatabaseInfo info={this.state.info[0]} />
             <hr />
             <RouteList parent={this} />
