@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import Octicons, {PlusSmall, Dash} from '@githubprimer/octicons-react'
 import { getDatabases } from "../../utils/api"
 
 class RegisterRoute extends Component {
@@ -55,7 +56,7 @@ class RegisterRoute extends Component {
       toReturn: this.state.column
     }
 
-    if(this.state.limit > 0) action["limit"] = this.state.limit
+    if (this.state.limit > 0) action["limit"] = this.state.limit
 
     fetch(`${process.env.REACT_APP_API}/build/register/route`, {
       method: "POST",
@@ -108,6 +109,12 @@ class RegisterRoute extends Component {
         column: []
       })
     }
+  }
+
+  setCheckboxes = e => {
+    document.forms[0].elements["column[]"].forEach(check => {
+      check.checked = !e.target.value
+    })
   }
 
   render() {
@@ -174,6 +181,14 @@ class RegisterRoute extends Component {
           {this.state.table.length > 0 && this.state.columns && (
             <div>
               <label>Columns:</label>
+              <div>
+                <button type="button" onClick={this.setCheckboxes} value="">
+                  <Octicons icon={PlusSmall}></Octicons>
+                </button>
+                <button type="button" onClick={this.setCheckboxes} value="a">
+                  <Octicons icon={Dash}></Octicons>
+                </button>
+              </div>
               {this.state.columns.map(col => (
                 <div key={col}>
                   <span>{col}</span>
