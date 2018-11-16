@@ -24,9 +24,7 @@ class RegisterDatabase extends Component {
       credentials: "omit",
       mode: "cors"
     })
-      .then(res => 
-        res.json()
-      )
+      .then(res => res.json())
       .then(data => {
         alert(data.message)
         this.props.update()
@@ -51,33 +49,69 @@ class RegisterDatabase extends Component {
           onSubmit={this.handleSubmit.bind(this)}
           onChange={this.handleChange.bind(this)}
         >
-          <label>Type:</label>
-          <select required name="type" value={this.state.type} onChange={() => {}}>
-                <option disabled value="">
-                  -- select a database --
-                </option>
-            <option value="mysql">MySQL</option>
-            <option value="sqlite">SQLite</option>
-          </select>
-          <label>
-            Name
-            {this.state.type === "mysql"
-              ? " (for MySQL this is the name of the actual database)"
-              : ""}
-            :
-          </label>
-          <input name="name" type="text" />
-          <label>URL, can be domain, IP or local path:</label>
-          <input name="url" type="text" />
-          {this.state.type === "mysql" && 
-            <span>
-              <label>Username: </label>
-              <input type="text" name="user" placeholder="root"></input>
-              <label>Password: </label>
-              <input type="password" name="user" placeholder="password"></input>
-            </span>
-          }
-          <input type="submit" value="Save" />
+          <div className="form-group">
+            <label for="db_type">Type:</label>
+            <select
+              className="form-control"
+              id="db_type"
+              required
+              name="type"
+              value={this.state.type}
+              onChange={() => {}}
+            >
+              <option disabled value="">
+                -- select a database --
+              </option>
+              <option value="mysql">MySQL</option>
+              <option value="sqlite">SQLite</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label for="db_name">Name:</label>
+            <input
+              className="form-control"
+              id="db_name"
+              name="name"
+              type="text"
+              required
+            />
+            {this.state.type === "mysql" && (
+              <small className="form-text text-muted">
+                For MySQL this is the name of the database
+              </small>
+            )}
+          </div>
+          <div className="form-group">
+            <label for="db_url">URL, can be domain, IP or local path:</label>
+            <input
+              className="form-control"
+              id="db_url"
+              name="url"
+              type="text"
+              required
+            />
+            {this.state.type === "mysql" && (
+              <div className="form-group">
+                <label for="db_user">Username: </label>
+                <input
+                  className="form-control"
+                  id="db_user"
+                  type="text"
+                  name="user"
+                  placeholder="root"
+                />
+                <label for="db_pass">Password: </label>
+                <input
+                  className="form-control"
+                  id="db_pass"
+                  type="password"
+                  name="user"
+                  placeholder="password"
+                />
+              </div>
+            )}
+          </div>
+          <input className="btn btn-default" type="submit" value="Save" />
         </form>
       </div>
     )
