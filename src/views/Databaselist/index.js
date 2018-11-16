@@ -80,7 +80,7 @@ class DatabaseList extends Component {
                   <p className="card-text">{database.url}</p>
                   <p className="card-text">
                     {
-                      this.state.routes.filter(
+                      this.state.routes && this.state.routes.filter(
                         obj => obj.database === database.id
                       ).length
                     }
