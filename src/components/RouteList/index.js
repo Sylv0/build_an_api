@@ -39,7 +39,7 @@ class RouteList extends Component {
               <div className="card" key={route.id}>
                 <AccordionItem className="card-body">
                   <AccordionItemTitle className="card-title">
-                    <h3 style={{ display: "inline" }}>api/{route.route}</h3>
+                    <h6 style={{ display: "inline" }}>api/{route.route}</h6>
                     <button className="btn btn-danger btn-sm float-right" onClick={() => this.removeRoute(route.id)}>X</button>
                   </AccordionItemTitle>
                   <AccordionItemBody className="card-text">
