@@ -114,6 +114,10 @@ class RegisterRoute extends Component {
     document.forms[0].elements["column[]"].forEach(check => {
       check.checked = !e.target.value
     })
+
+    this.setState({
+      column: !e.target.value ? ["*"] : []
+    }, () => console.log(this.state))
   }
 
   render() {
