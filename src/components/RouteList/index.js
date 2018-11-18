@@ -49,6 +49,7 @@ class RouteList extends Component {
                     <p>Method: {route.method}</p>
                     <p>Table: {this.action(route.action).from}</p>
                     <p>Columns: {this.action(route.action).toReturn.join(", ")}</p>
+                    <p>{this.action(route.action).limit && `Limit: ${this.action(route.action).limit}`}</p>
                   </AccordionItemBody>
                 </AccordionItem>
               </div>
