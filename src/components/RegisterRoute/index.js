@@ -74,7 +74,6 @@ class RegisterRoute extends Component {
       .then(res => res.json())
       .then(data => {
         this.props.update()
-        alert(data.message)
       })
       .catch(err => console.log(err))
   }
@@ -117,7 +116,7 @@ class RegisterRoute extends Component {
 
     this.setState({
       column: !e.target.value ? ["*"] : []
-    }, () => console.log(this.state))
+    })
   }
 
   render() {

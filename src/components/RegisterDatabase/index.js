@@ -26,7 +26,6 @@ class RegisterDatabase extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        alert(data.message)
         this.props.update()
       })
       .catch(err => console.log(err))
@@ -105,7 +104,7 @@ class RegisterDatabase extends Component {
                   className="form-control"
                   id="db_pass"
                   type="password"
-                  name="user"
+                  name="pass"
                   placeholder="password"
                 />
               </div>

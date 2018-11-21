@@ -28,13 +28,11 @@ class RouteList extends Component {
   }
 
   render() {
-    console.log(this.props.parent.state.routes);
-    
     return (
       <div className="container float-left">
         <h5>Routes</h5>
         <Accordion style={{border: "none"}}>
-          {this.props.parent.state.routes ? (
+          {this.props.parent.state.routes && this.props.parent.state.routes.length > 0 ? (
             this.props.parent.state.routes.map(route => (
               <div className="card" key={route.id}  style={{border: "none"}}>
                 <AccordionItem className="card-body">
@@ -56,10 +54,10 @@ class RouteList extends Component {
               </div>
             ))
           ) : (
-              <li>No routes</li>
+              <div>No routes</div>
             )}
         </Accordion>
-        <button className="btn btn-default" onClick={() => this.setState({ addNew: !this.state.addNew })}>{this.state.addNew ? "Cancel" : "Add new"}</button>
+        <button className="btn btn-default mt-3" onClick={() => this.setState({ addNew: !this.state.addNew })}>{this.state.addNew ? "Cancel" : "Add new"}</button>
         {this.state.addNew && <RegisterRoute update={this.props.parent.getRoutes} database={this.props.parent.state.info[0].id} routes={this.props.parent.state.routes}></RegisterRoute>}
       </div>
     )

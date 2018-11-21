@@ -19,7 +19,12 @@ class DatabaseList extends Component {
 
   databases = () => {
     getDatabases()
-      .then(data => this.setState({ databases: data }))
+      .then(data => {
+        if(data.error !== true)
+          this.setState({ databases: data })
+        else
+          this.setState({databases: false})
+      })
       .catch(err => console.log(err))
   }
 
