@@ -3,8 +3,11 @@ import { Link } from "@reach/router"
 
 import RegisterDatabase from "../../components/RegisterDatabase"
 
-import { getDatabases, getRoutes } from "../../utils/api"
+import { getRoutes } from "../../utils/api"
 import Octicon, {X} from "@githubprimer/octicons-react";
+
+import { connect } from "react-redux";
+import { getDatabases, saveDatabase } from "../../actions/databases-actions";
 
 class DatabaseList extends Component {
   state = {
@@ -17,25 +20,27 @@ class DatabaseList extends Component {
       .catch(err => console.log(err))
   }
 
-  databases = () => {
-    getDatabases()
-      .then(data => {
-        if(data.error !== true)
-          this.setState({ databases: data })
-        else
-          this.setState({databases: false})
-      })
-      .catch(err => console.log(err))
-  }
+  // databases = () => {
+  //   getDatabases()
+  //     .then(data => {
+  //       if(data.error !== true)
+  //         this.setState({ databases: data })
+  //       else
+  //         this.setState({databases: false})
+  //     })
+  //     .catch(err => console.log(err))
+  // }
 
   componentDidMount = () => {
     document.title = "Build an API - Databases"
 
     this.routes = this.routes.bind(this)
-    this.databases = this.databases.bind(this)
+    // this.databases = this.databases.bind(this)
     this.update = this.update.bind(this)
 
     this.update()
+
+    this.props.onGetDatabases();
   }
 
   update = () => {
@@ -43,7 +48,7 @@ class DatabaseList extends Component {
       addNew: false
     })
     this.routes()
-    this.databases()
+    // this.databases()
   }
 
   delete = (id) => {
@@ -57,7 +62,9 @@ class DatabaseList extends Component {
   componentWillMount = () => {}
 
   render() {
+    console.log(this.props);
     return (
+      
       <div>
         <h2>Databases</h2>
         <div className="row">
@@ -108,4 +115,15 @@ class DatabaseList extends Component {
   }
 }
 
-export default DatabaseList
+const mapStateToProps = ({databases}) => {
+  return {
+    databases
+  };
+}
+
+const mapActionsToProps = {
+  onGetDatabases: getDatabases,
+  onSaveDatabase: saveDatabase
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(DatabaseList)
