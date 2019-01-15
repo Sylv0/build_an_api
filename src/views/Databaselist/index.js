@@ -15,21 +15,9 @@ class DatabaseList extends Component {
     addNew: false
   };
 
-  // databases = () => {
-  //   getDatabases()
-  //     .then(data => {
-  //       if(data.error !== true)
-  //         this.setState({ databases: data })
-  //       else
-  //         this.setState({databases: false})
-  //     })
-  //     .catch(err => console.log(err))
-  // }
-
   componentDidMount = () => {
     document.title = "Build an API - Databases";
 
-    // this.databases = this.databases.bind(this)
     this.update = this.update.bind(this);
 
     this.update();
@@ -42,7 +30,6 @@ class DatabaseList extends Component {
     this.setState({
       addNew: false
     });
-    // this.databases()
   };
 
   delete = id => {
@@ -57,7 +44,6 @@ class DatabaseList extends Component {
   componentWillMount = () => {};
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <h2>Databases</h2>

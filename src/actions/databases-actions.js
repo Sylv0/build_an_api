@@ -14,7 +14,6 @@ export function getDatabases() {
     axios
       .get(`${process.env.REACT_APP_API}/build/databases`)
       .then(res => {
-        console.log(res);
         dispatch(getDatabasesAction(res.data));
       })
       .catch(err => {

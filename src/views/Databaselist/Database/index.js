@@ -1,29 +1,43 @@
-import React, { Component } from "react"
-import { Link } from "@reach/router"
-import DatabaseInfo from "../../../components/DatabaseInfo"
-import RouteList from "../../../components/RouteList"
+import React, { Component } from "react";
+import { Link } from "@reach/router";
+import { connect } from "react-redux";
+
+import { getRoutes } from "../../../actions/routes-actions";
+
+import DatabaseInfo from "../../../components/DatabaseInfo";
+import RouteList from "../../../components/RouteList";
 
 class Database extends Component {
-  state = {}
+  state = {};
 
   componentDidMount = () => {
-    this.getRoutes = this.getRoutes.bind(this)
-    this.setState({ info: this.props.location.state.info }, () => {
-      this.getRoutes()
-    })
-  }
+    this.props.onGetRoutes();
+    this.getRoutes = this.getRoutes.bind(this);
+    this.setState(
+      {
+        info: this.props.location.state.info[0]
+      },
+      this.getRoutes
+    );
+  };
+
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    prevProps.routes !== this.props.routes &&
+      this.setState({
+        routes: this.props.routes.filter(
+          obj => obj.database === this.state.info.id
+        )
+      });
+  };
 
   getRoutes = () => {
-    fetch(`${process.env.REACT_APP_API}/build/routes`)
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          routes: data.filter(obj => obj.database === this.state.info[0].id)
-        })
-      })
-  }
+    this.props.onGetRoutes();
+  };
 
   render() {
+    const info = this.props.location.state.info[0];
+    const routes = this.props.routes.filter(obj => obj.database === info.id);
+
     return (
       <div>
         <Link to="/databases">Back to list</Link>
@@ -34,14 +48,27 @@ class Database extends Component {
           </span>
         ) : (
           <div className="container-fluid">
-            <DatabaseInfo info={this.state.info[0]} />
+            <DatabaseInfo info={this.state.info} />
             <hr />
             <RouteList parent={this} />
           </div>
         )}
       </div>
-    )
+    );
   }
 }
 
-export default Database
+function mapStateToProps({ routes }) {
+  return {
+    routes
+  };
+}
+
+const mapActionsToProps = {
+  onGetRoutes: getRoutes
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(Database);

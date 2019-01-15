@@ -14,7 +14,6 @@ export function getRoutes() {
     axios
       .get(`${process.env.REACT_APP_API}/build/routes`)
       .then(res => {
-        console.log(res.data);
         dispatch(getRoutesAction(res.data));
       })
       .catch(console.log);

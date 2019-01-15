@@ -1,12 +1,11 @@
 import { API_GET_DATABASES } from "../actions/databases-actions";
 
-export default function databasesReducer(state = [], {type, payload}) {
+export default function databasesReducer(state = [], { type, payload }) {
+  switch (type) {
+    case API_GET_DATABASES:
+      return payload;
 
-    switch(type){
-        case API_GET_DATABASES:
-            return payload;
-
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }
