@@ -6,6 +6,9 @@ import {
   AccordionItemTitle,
   AccordionItemBody
 } from "react-accessible-accordion";
+import { connect } from "react-redux";
+
+import { getRoutes} from "../../actions/routes-actions";
 
 import RegisterRoute from "../RegisterRoute";
 
@@ -26,14 +29,18 @@ class RouteList extends Component {
       .catch(console.log);
   };
 
-  render() {
+  componentDidMount = () => {
+    this.props.onGetRoutes();
+  }
+
+  render() {      
     return (
       <div className="container float-left">
         <h5>Routes</h5>
         <Accordion style={{ border: "none" }}>
-          {this.props.parent.state.routes &&
-          this.props.parent.state.routes.length > 0 ? (
-            this.props.parent.state.routes.map(route => (
+          {this.props.routes &&
+          this.props.routes.length > 0 ? (
+            this.props.routes.filter(r => r.database === this.props.parent.state.info.id).map(route => (
               <div className="card" key={route.id} style={{ border: "none" }}>
                 <AccordionItem className="card-body">
                   <AccordionItemTitle
@@ -101,7 +108,7 @@ class RouteList extends Component {
           <RegisterRoute
             update={this.props.parent.getRoutes}
             database={this.props.parent.state.info.id}
-            routes={this.props.parent.state.routes}
+            routes={this.props.routes}
           />
         )}
       </div>
@@ -109,4 +116,19 @@ class RouteList extends Component {
   }
 }
 
-export default RouteList;
+function mapStateToProps({ routes }) {
+  console.log("Some routes ", routes);
+  
+  return {
+    routes
+  };
+}
+
+const mapActionsToProps = {
+  onGetRoutes: getRoutes
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(RouteList);
