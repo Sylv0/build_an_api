@@ -116,9 +116,7 @@ class RouteList extends Component {
   }
 }
 
-function mapStateToProps({ routes }) {
-  console.log("Some routes ", routes);
-  
+function mapStateToProps({ routes }) {  
   return {
     routes
   };
