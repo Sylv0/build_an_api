@@ -8,7 +8,7 @@ import {
 } from "react-accessible-accordion";
 import { connect } from "react-redux";
 
-import { getRoutes} from "../../actions/routes-actions";
+import { getRoutes } from "../../actions/routes-actions";
 
 import RegisterRoute from "../RegisterRoute";
 
@@ -29,71 +29,70 @@ class RouteList extends Component {
       .catch(console.log);
   };
 
-  componentDidMount = () => {
-    this.props.onGetRoutes();
-  }
-
-  render() {      
+  render() {
     return (
       <div className="container float-left">
         <h5>Routes</h5>
         <Accordion style={{ border: "none" }}>
-          {this.props.routes &&
-          this.props.routes.length > 0 ? (
-            this.props.routes.filter(r => r.database === this.props.parent.state.info.id).map(route => (
-              <div className="card" key={route.id} style={{ border: "none" }}>
-                <AccordionItem className="card-body">
-                  <AccordionItemTitle
-                    className="card-title accordion__title accordion__title--animated"
-                    style={{
-                      userSelect: "none",
-                      outline: "none",
-                      cursor: "pointer",
-                      margin: "0"
-                    }}
-                  >
-                    <div
-                      className="accordion__arrow"
-                      style={{ position: "relative" }}
-                      role="presentation"
-                    />
-                    <h6 style={{ display: "inline" }}>api/{route.route}</h6>
-                    <button
-                      className="btn btn-danger btn-sm float-right"
-                      onClick={() => this.removeRoute(route.id)}
+          {this.props.routes && this.props.routes.length > 0 ? (
+            this.props.routes
+              .filter(r => r.database === this.props.parent.state.info.id)
+              .map(route => (
+                <div className="card" key={route.id} style={{ border: "none" }}>
+                  <AccordionItem className="card-body">
+                    <AccordionItemTitle
+                      className="card-title accordion__title accordion__title--animated"
+                      style={{
+                        userSelect: "none",
+                        outline: "none",
+                        cursor: "pointer",
+                        margin: "0"
+                      }}
                     >
-                      X
-                    </button>
-                  </AccordionItemTitle>
-                  <AccordionItemBody
-                    className="card-text"
-                    style={{
-                      border: "1px solid lightgray",
-                      borderTop: "none",
-                      padding: "1rem 1rem 0 1rem"
-                    }}
-                  >
-                    <p>
-                      Url:{" "}
-                      <a
-                        href={`${process.env.REACT_APP_API}/api/${route.route}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >{`${process.env.REACT_APP_API}/api/${route.route}`}</a>
-                    </p>
-                    <p>Method: {route.method}</p>
-                    <p>Table: {this.action(route.action).from}</p>
-                    <p>
-                      Columns: {this.action(route.action).toReturn.join(", ")}
-                    </p>
-                    <p>
-                      {this.action(route.action).limit &&
-                        `Limit: ${this.action(route.action).limit}`}
-                    </p>
-                  </AccordionItemBody>
-                </AccordionItem>
-              </div>
-            ))
+                      <div
+                        className="accordion__arrow"
+                        style={{ position: "relative" }}
+                        role="presentation"
+                      />
+                      <h6 style={{ display: "inline" }}>api/{route.route}</h6>
+                      <button
+                        className="btn btn-danger btn-sm float-right"
+                        onClick={() => this.removeRoute(route.id)}
+                      >
+                        X
+                      </button>
+                    </AccordionItemTitle>
+                    <AccordionItemBody
+                      className="card-text"
+                      style={{
+                        border: "1px solid lightgray",
+                        borderTop: "none",
+                        padding: "1rem 1rem 0 1rem"
+                      }}
+                    >
+                      <p>
+                        Url:{" "}
+                        <a
+                          href={`${process.env.REACT_APP_API}/api/${
+                            route.route
+                          }`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >{`${process.env.REACT_APP_API}/api/${route.route}`}</a>
+                      </p>
+                      <p>Method: {route.method}</p>
+                      <p>Table: {this.action(route.action).from}</p>
+                      <p>
+                        Columns: {this.action(route.action).toReturn.join(", ")}
+                      </p>
+                      <p>
+                        {this.action(route.action).limit &&
+                          `Limit: ${this.action(route.action).limit}`}
+                      </p>
+                    </AccordionItemBody>
+                  </AccordionItem>
+                </div>
+              ))
           ) : (
             <div>No routes</div>
           )}
@@ -116,17 +115,10 @@ class RouteList extends Component {
   }
 }
 
-function mapStateToProps({ routes }) {  
+function mapStateToProps({ routes }) {
   return {
     routes
   };
 }
 
-const mapActionsToProps = {
-  onGetRoutes: getRoutes
-};
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(RouteList);
+export default connect(mapStateToProps)(RouteList);
