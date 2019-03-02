@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from "axios"
 
-export const API_GET_DATABASES = "databases:getAll";
+export const API_GET_DATABASES = "databases:getAll"
 
 export function getDatabasesAction(data) {
   return {
     type: API_GET_DATABASES,
     payload: data
-  };
+  }
 }
 
 export function getDatabases() {
@@ -14,23 +14,27 @@ export function getDatabases() {
     axios
       .get(`${process.env.REACT_APP_API}/build/databases`)
       .then(res => {
-        dispatch(getDatabasesAction(res.data));
+        dispatch(getDatabasesAction(res.data))
       })
       .catch(err => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 }
 
-export const API_SAVE_DATABASE = "databases:saveNew";
+export const API_SAVE_DATABASE = "databases:saveNew"
 
 export function saveDatabaseAction(data) {
   return {
     type: API_SAVE_DATABASE,
     payload: data
-  };
+  }
 }
 
 export function saveDatabase(data) {
-  console.log(data);
+  return dispatch =>
+    axios
+      .post(`${process.env.REACT_APP_API}/build/register/database`, data)
+      .then(res => dispatch(saveDatabaseAction(res.data)))
+      .catch(err => console.log("Save database error: ", err))
 }

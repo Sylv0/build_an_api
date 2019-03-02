@@ -1,4 +1,7 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
+
+import { saveDatabase } from "../../actions/databases-actions"
 
 class RegisterDatabase extends Component {
   componentDidMount = () => {
@@ -15,20 +18,22 @@ class RegisterDatabase extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    fetch(`${process.env.REACT_APP_API}/build/register/database`, {
-      method: "POST",
-      body: JSON.stringify(this.state),
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "omit",
-      mode: "cors"
-    })
-      .then(res => res.json())
-      .then(data => {
-        this.props.update()
-      })
-      .catch(err => console.log(err))
+    // fetch(`${process.env.REACT_APP_API}/build/register/database`, {
+    //   method: "POST",
+    //   body: JSON.stringify(this.state),
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   credentials: "omit",
+    //   mode: "cors"
+    // })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     this.props.update()
+    //   })
+    //   .catch(err => console.log(err))
+
+    this.props.saveDatabase(this.state)
   }
 
   handleChange = e => {
@@ -81,7 +86,9 @@ class RegisterDatabase extends Component {
             )}
           </div>
           <div className="form-group">
-            <label htmlFor="db_url">URL, can be domain, IP or local path:</label>
+            <label htmlFor="db_url">
+              URL, can be domain, IP or local path:
+            </label>
             <input
               className="form-control"
               id="db_url"
@@ -117,4 +124,11 @@ class RegisterDatabase extends Component {
   }
 }
 
-export default RegisterDatabase
+const mapActionsToState = {
+  saveDatabase
+}
+
+export default connect(
+  null,
+  mapActionsToState
+)(RegisterDatabase)
